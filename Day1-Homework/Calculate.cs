@@ -13,12 +13,17 @@ namespace Day1_Homework
             IEnumerable<int> result = null;
             List<T> listSource = source.ToList();
             var propertyInfo = typeof(T).GetProperty(propertyName);
-            if (propertyInfo != null && propertyInfo.PropertyType == typeof(int))
+            if (propertyInfo == null)
             {
-                result = listSource.GroupBy(g => (listSource.IndexOf(g) / groupNumber + 1))
-                   .Select(o => o.Sum(s => (int)propertyInfo.GetValue(s)));
-                    
+                throw new MissingMemberException(string.Format("PropertyName:{0}", propertyName));
             }
+            if (propertyInfo.PropertyType != typeof(int))
+            {
+                throw new TypeLoadException("mustBeInt");
+            }
+            result = listSource.GroupBy(g => (listSource.IndexOf(g) / groupNumber + 1))
+                   .Select(o => o.Sum(s => (int)propertyInfo.GetValue(s)));
+        
             return result;
         }
     }

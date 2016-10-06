@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions;
+using System;
 
 namespace Day1_Homework.Tests
 {
@@ -63,6 +65,15 @@ namespace Day1_Homework.Tests
             var actual = target.SumOfPropertyGrupByNumber(source, propertyName, groupNumber).ToArray();
             CollectionAssert.AreEqual(expected, actual);
 
+        }
+        [TestMethod()]
+        public void MissPropertyExcpetionTest()
+        {
+            string propertyName = "NoThisProperty";
+            int groupNumber = 4;
+            Calculate<Product> target = new Calculate<Product>();
+            Action act = () => target.SumOfPropertyGrupByNumber(source, propertyName, groupNumber);
+            act.ShouldThrow<MissingMemberException>();
         }
 
 
