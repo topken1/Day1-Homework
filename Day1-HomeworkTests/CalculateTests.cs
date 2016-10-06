@@ -44,12 +44,10 @@ namespace Day1_Homework.Tests
         {
             string propertyName = "Cost";
             int groupNumber = 3;
-            //IEnumerable<Product> source = GetProducts();
             Calculate<Product> target = new Calculate<Product>();
             var expected = new int[] { 6, 15, 24, 21 };
             var actual = target.SumOfPropertyGrupByNumber(source, propertyName, groupNumber).ToArray();
 
-            //expected.ToExpectedObject().ShouldMatch(actual);
             CollectionAssert.AreEqual(expected, actual);
 
         }
@@ -59,7 +57,7 @@ namespace Day1_Homework.Tests
         {
             string propertyName = "Revenue";
             int groupNumber = 4;
-            //IEnumerable<Product> source = GetProducts();
+            
             Calculate<Product> target = new Calculate<Product>();
             var expected = new int[] { 50, 66, 60 };
             var actual = target.SumOfPropertyGrupByNumber(source, propertyName, groupNumber).ToArray();
