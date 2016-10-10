@@ -12,12 +12,13 @@ namespace Day1_Homework
         {
 
             var index = 0;
+            if (groupNumber <= 0)
+            {
+                throw new ArgumentException("must be greater than 0 ");
+            }
             while (index <= source.Count())
             {
-                if( groupNumber == 0)
-                {
-                    throw new OutOfMemoryException("GroupNumber is Nero");
-                }
+                
                 yield return source.Skip(index).Take(groupNumber).Sum(selector);
                 index += groupNumber;
             }
