@@ -5,26 +5,23 @@ using System.Reflection;
 
 namespace Day1_Homework
 {
-    public class Calculate<T>
-    {
 
-        public IEnumerable<int> SumOfPropertyGrupByNumber(IEnumerable<T> source, string propertyName, int groupNumber)
+    public static class CalculateExtension
+    {
+        public static IEnumerable<int> GetSum<TSource>(this IEnumerable<TSource> source, int groupNumber, Func<TSource, int> selector)
         {
-            IEnumerable<int> result = null;
-            List<T> listSource = source.ToList();
-            var propertyInfo = typeof(T).GetProperty(propertyName);
-            if (propertyInfo == null)
+
+            var index = 0;
+            while (index <= source.Count())
             {
-                throw new MissingMemberException(string.Format("PropertyName:{0}", propertyName));
+                if( groupNumber == 0)
+                {
+                    throw new OutOfMemoryException("GroupNumber is Nero");
+                }
+                yield return source.Skip(index).Take(groupNumber).Sum(selector);
+                index += groupNumber;
             }
-            if (propertyInfo.PropertyType != typeof(int))
-            {
-                throw new TypeLoadException("mustBeInt");
-            }
-            result = listSource.GroupBy(g => (listSource.IndexOf(g) / groupNumber + 1))
-                   .Select(o => o.Sum(s => (int)propertyInfo.GetValue(s)));
-        
-            return result;
         }
     }
+    
 }

@@ -9,19 +9,7 @@ namespace Day1_Homework.Tests
     [TestClass()]
     public class CalculateTests
     {
-        private static List<Product> source = null;
-        [AssemblyInitialize()]
-        public static void AssemblyInit(TestContext context)
-        {
-            source = GetProducts();
-        }
-
-        [AssemblyCleanup()]
-        public static void AssemblyCleanup()
-        {
-            source = null;
-        }
-        private static List<Product> GetProducts()
+        private IEnumerable<Product> GetProducts()
         {
             return new List<Product>()
             {
@@ -39,43 +27,28 @@ namespace Day1_Homework.Tests
             };
         }
 
-
-
         [TestMethod()]
-        public void SumOfPropertyGrupByNumberTest_3筆一組_取Cost總和()
+        public void GetSumTest_3筆一組_取Cost總和()
         {
-            string propertyName = "Cost";
             int groupNumber = 3;
-            Calculate<Product> target = new Calculate<Product>();
+            var source = GetProducts();            
             var expected = new int[] { 6, 15, 24, 21 };
-            var actual = target.SumOfPropertyGrupByNumber(source, propertyName, groupNumber).ToArray();
+            var actual = source.GetSum<Product>(groupNumber, x => x.Cost).ToList();
+            var b = source.GetSum<Product>(4, x => x.Cost);
 
             CollectionAssert.AreEqual(expected, actual);
-
         }
 
+ 
+
         [TestMethod()]
-        public void SumOfPropertyGrupByNumberTest_4筆一組_取Revenue總和()
+        public void GetSumTest_4筆一組_取Revenue總和()
         {
-            string propertyName = "Revenue";
             int groupNumber = 4;
-            
-            Calculate<Product> target = new Calculate<Product>();
+            var source = GetProducts();
             var expected = new int[] { 50, 66, 60 };
-            var actual = target.SumOfPropertyGrupByNumber(source, propertyName, groupNumber).ToArray();
+            var actual = source.GetSum<Product>(groupNumber, x => x.Revenue).ToList();
             CollectionAssert.AreEqual(expected, actual);
-
         }
-        [TestMethod()]
-        public void MissPropertyExcpetionTest()
-        {
-            string propertyName = "NoThisProperty";
-            int groupNumber = 4;
-            Calculate<Product> target = new Calculate<Product>();
-            Action act = () => target.SumOfPropertyGrupByNumber(source, propertyName, groupNumber);
-            act.ShouldThrow<MissingMemberException>();
-        }
-
-
     }
 }

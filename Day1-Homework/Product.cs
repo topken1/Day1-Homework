@@ -24,5 +24,6 @@ namespace Day1_Homework
         /// 售價
         /// </summary>
         public int SellPrice { get; set; }
+
     }
 }
